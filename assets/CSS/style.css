@@ -29,6 +29,7 @@ body {
 
 .page-main h2 {
   text-decoration: none;
+  text-align: center;
 }
 
 .page-main p {
@@ -42,8 +43,15 @@ body {
   padding: 5px 5px;
   border-style: none;
   border-radius: 6px;
+  margin: 2px;
 }
 
 .button:hover {
   background-color: blueviolet;
+}
+
+.answer-li {
+  list-style: none;
+  text-align: left;
+  margin-right: 28px;
 }
