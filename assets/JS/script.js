@@ -35,7 +35,10 @@ timerEl.textContent = "Time: 0";
 headerEl.appendChild(timerEl);
 
 //timer
-var quizTimer = { time: 500 };
+var quizTimer = {
+  time: 500,
+  pentalty: 15,
+};
 
 // op header
 var opHeader = document.createElement("h2");
@@ -46,7 +49,9 @@ opHeader.textContent = "Coding Quiz Challenge";
 var opSubHead = document.createElement("p");
 opSubHead.className = "sub-header";
 opSubHead.innerHTML =
-  "Try to the following code related questions within the time limit. Keeep in mind that incorrect answers will decrease your scoretime by 10 seconds!";
+  "Try to the following code related questions within the time limit. Keeep in mind that incorrect answers will decrease your scoretime by " +
+  quizTimer.pentalty +
+  " seconds!";
 
 // op start button
 var startBtn = document.createElement("button");
@@ -138,18 +143,111 @@ var Qpage1 = function () {
       Qpage2();
     } else {
       console.log("Wrong!!");
-      quizTimer = quizTimer - 10;
+      quizTimer.time = quizTimer.time - quizTimer.pentalty;
       sectionEl.appendChild(wrong);
       Qpage2();
     }
   });
 };
-
 var Qpage2 = function () {
+  // remove page Elements
   $(mainEl).empty();
-  console.log("page 2");
-  questionator();
+
+  // generate questions
+  questionator(Questions.Q2, Answers.Aset2);
+  $(".quiz-answers").click(function (e) {
+    e.preventDefault();
+    var rightAnswer = e.target.dataset.ansId;
+    console.log(rightAnswer);
+    if (parseInt(rightAnswer) === 2) {
+      console.log("correct!");
+      $(sectionEl).empty();
+      sectionEl.appendChild(right);
+      Qpage3();
+    } else {
+      console.log("Wrong!!");
+      quizTimer.time = quizTimer.time - quizTimer.pentalty;
+      $(sectionEl).empty();
+      sectionEl.appendChild(wrong);
+      Qpage3();
+    }
+  });
 };
+var Qpage3 = function () {
+  // remove page Elements
+  $(mainEl).empty();
+
+  // generate questions
+  questionator(Questions.Q3, Answers.Aset3);
+  $(".quiz-answers").click(function (e) {
+    e.preventDefault();
+    var rightAnswer = e.target.dataset.ansId;
+    console.log(rightAnswer);
+    if (parseInt(rightAnswer) === 3) {
+      console.log("correct!");
+      $(sectionEl).empty();
+      sectionEl.appendChild(right);
+      Qpage4();
+    } else {
+      console.log("Wrong!!");
+      quizTimer.time = quizTimer.time - quizTimer.pentalty;
+      $(sectionEl).empty();
+      sectionEl.appendChild(wrong);
+      Qpage4();
+    }
+  });
+};
+var Qpage4 = function () {
+  // remove page Elements
+  $(mainEl).empty();
+
+  // generate questions
+  questionator(Questions.Q4, Answers.Aset4);
+  $(".quiz-answers").click(function (e) {
+    e.preventDefault();
+    var rightAnswer = e.target.dataset.ansId;
+    console.log(rightAnswer);
+    if (parseInt(rightAnswer) === 3) {
+      console.log("correct!");
+      $(sectionEl).empty();
+      sectionEl.appendChild(right);
+      Qpage5();
+    } else {
+      console.log("Wrong!!");
+      quizTimer.time = quizTimer.time - quizTimer.pentalty;
+      $(sectionEl).empty();
+      sectionEl.appendChild(wrong);
+      Qpage5();
+    }
+  });
+};
+var Qpage5 = function () {
+  // remove page Elements
+  $(mainEl).empty();
+
+  // generate questions
+  questionator(Questions.Q5, Answers.Aset5);
+  $(".quiz-answers").click(function (e) {
+    e.preventDefault();
+    var rightAnswer = e.target.dataset.ansId;
+    console.log(rightAnswer);
+    if (parseInt(rightAnswer) === 3) {
+      console.log("correct!");
+      $(sectionEl).empty();
+      sectionEl.appendChild(right);
+      gameEnd();
+    } else {
+      console.log("Wrong!!");
+      quizTimer.time = quizTimer.time - quizTimer.pentalty;
+      $(sectionEl).empty();
+      sectionEl.appendChild(wrong);
+      gameEnd();
+    }
+  });
+};
+
+// end screen
+var gameEnd = function () {};
 
 var timesUp = function () {
   $(mainEl).html("<h2 class='quiz-header'>Times Up!</h2>");

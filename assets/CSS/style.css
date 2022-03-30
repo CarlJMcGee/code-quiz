@@ -53,5 +53,14 @@ body {
 .answer-li {
   list-style: none;
   text-align: left;
-  margin-right: 28px;
+  margin-right: 307px;
+}
+
+.rightNwrong {
+  width: 30%;
+  margin: 3px auto;
+  font-weight: lighter;
+  font-style: italic;
+  color: grey;
+  border-top: 2px solid grey;
 }
