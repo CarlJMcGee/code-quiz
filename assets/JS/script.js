@@ -254,18 +254,18 @@ var Qpage5 = function () {
 function cleanUp() {
   $(mainEl).empty();
   $(timerEl).remove();
-  // capture timescore
-  var capturedScore = quizTimer.time;
-  console.log(capturedScore);
-  highscore.score.push(capturedScore);
-  console.log(highscore.score);
-  quizTimer.time = 999999;
 }
 
 // end screen
 var gameEnd = function () {
   // clear main and timer
   cleanUp();
+  // capture timescore
+  var capturedScore = quizTimer.time;
+  console.log(capturedScore);
+  highscore.score.push(capturedScore);
+  console.log(highscore.score);
+  quizTimer.time = 999999;
   // create and append header and subheader
   var endHeader = document.createElement("h2");
   endHeader.className = "quiz-header";
@@ -276,9 +276,9 @@ var gameEnd = function () {
   endSubHeader.innerHTML = "Your final score is " + highscore.score + ".";
   mainEl.appendChild(endSubHeader);
   // input for highscore name
-  var divEl = document.createElement("div");
-  divEl.className = "name-input-container";
-  divEl.innerHTML = "Enter Initials";
+  var formEl = document.createElement("form");
+  formEl.className = "name-input-container";
+  formEl.innerHTML = "Enter Initials";
   // input
   var nameInput = document.createElement("input");
   nameInput.className = "name-input";
@@ -289,13 +289,19 @@ var gameEnd = function () {
   nameSubmit.className = "button";
   nameSubmit.innerHTML = "Submit";
   nameSubmit.setAttribute("type", "submit");
-  mainEl.appendChild(divEl);
-  divEl.appendChild(nameInput);
-  divEl.appendChild(nameSubmit);
+  mainEl.appendChild(formEl);
+  formEl.appendChild(nameInput);
+  formEl.appendChild(nameSubmit);
   // hide right/wrong on input focus
   $(nameInput).focus(function (e) {
     e.preventDefault();
     $(sectionEl).empty();
+  });
+  // save name and score to highscore array
+  $(nameSubmit).submit(function (e) {
+    e.preventDefault();
+    highscore.name.push(nameInput.value);
+    console.log(highscore);
   });
 };
 
