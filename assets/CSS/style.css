@@ -1,0 +1,49 @@
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.page-header > * {
+  margin-top: 2px;
+}
+
+.page-header span {
+  color: rgb(169, 79, 192);
+}
+
+.page-main {
+  display: flex;
+  align-items: center;
+  flex-flow: column wrap;
+  margin-top: 70px;
+}
+
+.page-main > * {
+  flex: 1 100%;
+  margin: 5px;
+}
+
+.page-main h2 {
+  text-decoration: none;
+}
+
+.page-main p {
+  text-align: center;
+  width: 40%;
+}
+
+.button {
+  color: whitesmoke;
+  background-color: indigo;
+  padding: 5px 5px;
+  border-style: none;
+  border-radius: 6px;
+}
+
+.button:hover {
+  background-color: blueviolet;
+}
