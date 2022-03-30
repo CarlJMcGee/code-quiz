@@ -1,14 +1,28 @@
 // objects
 var Answers = {
   Aset1: ["strings", "booleans", "alerts", "numbers"],
+  Aset2: ["quotes", "curly brackets", "parentheses", "square brackets"],
+  Aset3: [
+    "numbers and strings",
+    "other arrays",
+    "booleans",
+    "all of the above",
+  ],
+  Aset4: ["commas", "curly brackets", "quotes", "parentheses"],
+  Aset5: ["JavaScript", "terminal/bash", "for loops", "console log"],
 };
 
 var Questions = {
   Q1: "Commonly used data type DO NOT include:",
+  Q2: "The condition in an If/Else statment is enclosed within ____.",
+  Q3: "Arrays in JavaScript can be used to store ____",
+  Q4: "String values must be enclosed within ____ when being assaigned to a variable.",
+  Q5: "A very useful tool used in development and debugging for printing content to the debugger is:",
 };
 // html hard elements
 var headerEl = document.querySelector(".page-header");
 var mainEl = document.querySelector(".page-main");
+var sectionEl = document.querySelector(".page-section");
 
 // top left highscore link
 var highscoreLink = document.createElement("span");
@@ -39,6 +53,16 @@ var startBtn = document.createElement("button");
 startBtn.className = "button";
 startBtn.innerHTML = "Start Quiz";
 
+// right
+var right = document.createElement("h3");
+right.className = "rightNwrong";
+right.innerHTML = "Correct!";
+
+// wrong
+var wrong = document.createElement("h3");
+wrong.className = "rightNwrong";
+wrong.innerHTML = "Wrong!";
+
 var quiz = function () {
   //   debugger;
   mainEl.appendChild(opHeader);
@@ -51,8 +75,6 @@ var quiz = function () {
 };
 
 var quizStart = function () {
-  // remove openning page El
-  $(mainEl).empty();
   // timer decrements 1 per second
   var timeInterval = setInterval(function () {
     // when timer finishes
@@ -101,6 +123,10 @@ var questionator = function (currentQuestion, currentAnswers) {
 
 // Question pages
 var Qpage1 = function () {
+  // remove page Elements
+  $(mainEl).empty();
+
+  // generate questions
   questionator(Questions.Q1, Answers.Aset1);
   $(".quiz-answers").click(function (e) {
     e.preventDefault();
@@ -108,10 +134,12 @@ var Qpage1 = function () {
     console.log(rightAnswer);
     if (parseInt(rightAnswer) === 2) {
       console.log("correct!");
+      sectionEl.appendChild(right);
       Qpage2();
     } else {
       console.log("Wrong!!");
       quizTimer = quizTimer - 10;
+      sectionEl.appendChild(wrong);
       Qpage2();
     }
   });
