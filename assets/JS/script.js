@@ -11,13 +11,16 @@ var Answers = {
   Aset4: ["commas", "curly brackets", "quotes", "parentheses"],
   Aset5: ["JavaScript", "terminal/bash", "for loops", "console log"],
 };
-
 var Questions = {
   Q1: "Commonly used data type DO NOT include:",
   Q2: "The condition in an If/Else statment is enclosed within ____.",
   Q3: "Arrays in JavaScript can be used to store ____",
   Q4: "String values must be enclosed within ____ when being assaigned to a variable.",
   Q5: "A very useful tool used in development and debugging for printing content to the debugger is:",
+};
+var highscore = {
+  name: [],
+  score: [],
 };
 // html hard elements
 var headerEl = document.querySelector(".page-header");
@@ -31,6 +34,7 @@ headerEl.appendChild(highscoreLink);
 
 // top right timer
 var timerEl = document.createElement("p");
+timerEl.id = "timerEl";
 timerEl.textContent = "Time: 0";
 headerEl.appendChild(timerEl);
 
@@ -231,6 +235,7 @@ var Qpage5 = function () {
     e.preventDefault();
     var rightAnswer = e.target.dataset.ansId;
     console.log(rightAnswer);
+    //check answer
     if (parseInt(rightAnswer) === 3) {
       console.log("correct!");
       $(sectionEl).empty();
@@ -245,9 +250,54 @@ var Qpage5 = function () {
     }
   });
 };
+// clean up screen for game end
+function cleanUp() {
+  $(mainEl).empty();
+  $(timerEl).remove();
+  // capture timescore
+  var capturedScore = quizTimer.time;
+  console.log(capturedScore);
+  highscore.score.push(capturedScore);
+  console.log(highscore.score);
+  quizTimer.time = 999999;
+}
 
 // end screen
-var gameEnd = function () {};
+var gameEnd = function () {
+  // clear main and timer
+  cleanUp();
+  // create and append header and subheader
+  var endHeader = document.createElement("h2");
+  endHeader.className = "quiz-header";
+  endHeader.innerHTML = "All Done!";
+  mainEl.appendChild(endHeader);
+  var endSubHeader = document.createElement("p");
+  endSubHeader.className = "sub-header";
+  endSubHeader.innerHTML = "Your final score is " + highscore.score + ".";
+  mainEl.appendChild(endSubHeader);
+  // input for highscore name
+  var divEl = document.createElement("div");
+  divEl.className = "name-input-container";
+  divEl.innerHTML = "Enter Initials";
+  // input
+  var nameInput = document.createElement("input");
+  nameInput.className = "name-input";
+  nameInput.innerHTML = "";
+  nameInput.setAttribute("placeholder", "CUP");
+  // submit
+  var nameSubmit = document.createElement("button");
+  nameSubmit.className = "button";
+  nameSubmit.innerHTML = "Submit";
+  nameSubmit.setAttribute("type", "submit");
+  mainEl.appendChild(divEl);
+  divEl.appendChild(nameInput);
+  divEl.appendChild(nameSubmit);
+  // hide right/wrong on input focus
+  $(nameInput).focus(function (e) {
+    e.preventDefault();
+    $(sectionEl).empty();
+  });
+};
 
 var timesUp = function () {
   $(mainEl).html("<h2 class='quiz-header'>Times Up!</h2>");

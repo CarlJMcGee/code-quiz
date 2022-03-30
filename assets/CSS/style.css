@@ -64,3 +64,11 @@ body {
   color: grey;
   border-top: 2px solid grey;
 }
+
+.name-submit-conatiner {
+  display: flex;
+}
+
+.name-submit-conatiner > * {
+  flex: 1;
+}
