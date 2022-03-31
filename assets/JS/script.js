@@ -22,6 +22,15 @@ var highscore = {
   name: [],
   score: [],
 };
+//timer
+var quizTimer = {
+  time: 25,
+  pentalty: 3,
+};
+var defaultQuizTimer = {
+  time: 25,
+  pentalty: 3,
+};
 // html hard elements
 var headerEl = document.querySelector(".page-header");
 var mainEl = document.querySelector(".page-main");
@@ -36,13 +45,6 @@ headerEl.appendChild(highscoreLink);
 var timerEl = document.createElement("p");
 timerEl.id = "timerEl";
 timerEl.textContent = "Time: 0";
-headerEl.appendChild(timerEl);
-
-//timer
-var quizTimer = {
-  time: 500,
-  pentalty: 15,
-};
 
 // op header
 var opHeader = document.createElement("h2");
@@ -53,7 +55,9 @@ opHeader.textContent = "Coding Quiz Challenge";
 var opSubHead = document.createElement("p");
 opSubHead.className = "sub-header";
 opSubHead.innerHTML =
-  "Try to the following code related questions within the time limit. Keeep in mind that incorrect answers will decrease your scoretime by " +
+  "Try to the following code related questions within the " +
+  quizTimer.time +
+  " second time limit. Keeep in mind that incorrect answers will decrease your scoretime by " +
   quizTimer.pentalty +
   " seconds!";
 
@@ -77,6 +81,7 @@ var quiz = function () {
   mainEl.appendChild(opHeader);
   mainEl.appendChild(opSubHead);
   mainEl.appendChild(startBtn);
+  headerEl.appendChild(timerEl);
   $(startBtn).click(function (e) {
     e.preventDefault();
     quizStart();
@@ -85,9 +90,10 @@ var quiz = function () {
 
 var quizStart = function () {
   // timer decrements 1 per second
+  quizTimer.time = defaultQuizTimer.time;
   var timeInterval = setInterval(function () {
     // when timer finishes
-    if (quizTimer.time === -1) {
+    if (quizTimer.time <= -1) {
       clearInterval(timeInterval);
       console.log("test successful!");
       timesUp();
@@ -263,7 +269,6 @@ var gameEnd = function () {
   // capture timescore
   var capturedScore = quizTimer.time;
   console.log(capturedScore);
-  highscore.score.push(capturedScore);
   console.log(highscore.score);
   quizTimer.time = 999999;
   // create and append header and subheader
@@ -273,7 +278,7 @@ var gameEnd = function () {
   mainEl.appendChild(endHeader);
   var endSubHeader = document.createElement("p");
   endSubHeader.className = "sub-header";
-  endSubHeader.innerHTML = "Your final score is " + highscore.score + ".";
+  endSubHeader.innerHTML = "Your final score is " + capturedScore + ".";
   mainEl.appendChild(endSubHeader);
   // input for highscore name
   var formEl = document.createElement("form");
@@ -297,16 +302,103 @@ var gameEnd = function () {
     e.preventDefault();
     $(sectionEl).empty();
   });
-  // save name and score to highscore array
-  $(nameSubmit).submit(function (e) {
+  // save name and score to local storage
+  $(formEl).submit(function (e) {
     e.preventDefault();
-    highscore.name.push(nameInput.value);
-    console.log(highscore);
+    localStorage.setItem("name", nameInput.value);
+    localStorage.setItem("highscore", capturedScore);
+    nameInput.value = "";
+  });
+
+  // restart button
+  var goBackBtn = document.createElement("button");
+  goBackBtn.className = "button";
+  goBackBtn.innerHTML = "Go Back";
+  mainEl.appendChild(goBackBtn);
+  $(goBackBtn).click(function (e) {
+    e.preventDefault();
+    $(mainEl).empty();
+    quiz();
   });
 };
 
+$(highscoreLink).click(function (e) {
+  e.preventDefault();
+  var highscorePage = function () {
+    $(mainEl).empty();
+    var topName = localStorage.getItem("name");
+    var topScore = localStorage.getItem("highscore");
+    if (topName === null) {
+      topName = "none";
+      topScore = "0";
+    }
+    console.log(topScore);
+    var highscoreHeader = document.createElement("h2");
+    highscoreHeader.className = "quiz-header`";
+    highscoreHeader.innerHTML = "Highscore:";
+    var score = document.createElement("span");
+    score.className = "score";
+    score.innerHTML = "1. " + topName + "- " + topScore;
+    mainEl.appendChild(highscoreHeader);
+    mainEl.appendChild(score);
+
+    var scoreBtnDiv = document.createElement("div");
+    scoreBtnDiv.className = "";
+    scoreBtnDiv.innerHTML = "";
+    mainEl.appendChild(scoreBtnDiv);
+    // go back button
+    var goBackBtn = document.createElement("button");
+    goBackBtn.className = "button";
+    goBackBtn.innerHTML = "Go Back";
+    scoreBtnDiv.appendChild(goBackBtn);
+    $(goBackBtn).click(function (e) {
+      e.preventDefault();
+      $(mainEl).empty();
+      quiz();
+    });
+
+    // delete score button
+    var deleteBtn = document.createElement("button");
+    deleteBtn.className = "button";
+    deleteBtn.innerHTML = "Delete Highscore";
+    scoreBtnDiv.appendChild(deleteBtn);
+    $(deleteBtn).click(function (e) {
+      e.preventDefault();
+      localStorage.removeItem("highscore");
+      localStorage.removeItem("name");
+      highscorePage();
+    });
+  };
+  highscorePage();
+});
+
 var timesUp = function () {
-  $(mainEl).html("<h2 class='quiz-header'>Times Up!</h2>");
+  // clear main and timer
+  cleanUp();
+  // capture timescore
+  var capturedScore = quizTimer.time;
+  console.log(capturedScore);
+  console.log(highscore.score);
+  quizTimer.time = 999999;
+  // create and append header and subheader
+  var endHeader = document.createElement("h2");
+  endHeader.className = "quiz-header";
+  endHeader.innerHTML = "Times Up!";
+  mainEl.appendChild(endHeader);
+  var endSubHeader = document.createElement("p");
+  endSubHeader.className = "sub-header";
+  endSubHeader.innerHTML = "Game Over!";
+  mainEl.appendChild(endSubHeader);
+  // restart button
+  var goBackBtn = document.createElement("button");
+  goBackBtn.className = "button";
+  goBackBtn.innerHTML = "Go Back";
+  mainEl.appendChild(goBackBtn);
+  $(goBackBtn).click(function (e) {
+    e.preventDefault();
+    $(mainEl).empty();
+    quiz();
+  });
 };
 
 quiz();
