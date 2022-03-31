@@ -89,8 +89,9 @@ var quiz = function () {
 };
 
 var quizStart = function () {
-  // timer decrements 1 per second
   quizTimer.time = defaultQuizTimer.time;
+  clearInterval(timeInterval);
+  // timer decrements 1 per second
   var timeInterval = setInterval(function () {
     // when timer finishes
     if (quizTimer.time <= -1) {
