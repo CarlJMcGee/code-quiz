@@ -89,9 +89,8 @@ var quiz = function () {
 };
 
 var quizStart = function () {
-  quizTimer.time = defaultQuizTimer.time;
-  clearInterval(timeInterval);
   // timer decrements 1 per second
+  quizTimer.time = defaultQuizTimer.time;
   var timeInterval = setInterval(function () {
     // when timer finishes
     if (quizTimer.time <= -1) {
@@ -314,12 +313,11 @@ var gameEnd = function () {
   // restart button
   var goBackBtn = document.createElement("button");
   goBackBtn.className = "button";
-  goBackBtn.innerHTML = "Go Back";
+  goBackBtn.innerHTML = "Restart";
   mainEl.appendChild(goBackBtn);
   $(goBackBtn).click(function (e) {
     e.preventDefault();
-    $(mainEl).empty();
-    quiz();
+    location.reload();
   });
 };
 
@@ -354,8 +352,7 @@ $(highscoreLink).click(function (e) {
     scoreBtnDiv.appendChild(goBackBtn);
     $(goBackBtn).click(function (e) {
       e.preventDefault();
-      $(mainEl).empty();
-      quiz();
+      location.reload();
     });
 
     // delete score button
@@ -397,8 +394,7 @@ var timesUp = function () {
   mainEl.appendChild(goBackBtn);
   $(goBackBtn).click(function (e) {
     e.preventDefault();
-    $(mainEl).empty();
-    quiz();
+    location.reload();
   });
 };
 
